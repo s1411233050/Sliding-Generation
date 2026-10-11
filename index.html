@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>被「點亮」的焦慮：滑動世代的情緒防線——正常使用與依賴使用行為的心理拔河</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    borderRadius: {
+                        'dopamine': '28px',
+                        'card': '20px'
+                    },
+                    colors: {
+                        morandi: {
+                            blue: '#7895b2',
+                            sky: '#f0f5f9',
+                            green: '#a3b899',
+                            yellow: '#e8e1d7',
+                            orange: '#e8d3c5',
+                            pink: '#ebd8d0',
+                            rose: '#e2b4bd',
+                            darkBg: '#181e28'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- MathJax for LaTeX Rendering -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overscroll-behavior-y: contain;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* 超淡彩柔和莫蘭迪動態漸層背景 */
+        @keyframes morandiSoftShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatOrbSoft {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+            50% { transform: translate3d(25px, -20px, 0) scale(1.08); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translate3d(0, 12px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        .view-fade-in {
+            animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            will-change: opacity, transform;
+        }
+
+        /* 淺色極致淡彩背景 */
+        .dopamine-bg {
+            background: linear-gradient(-45deg, #f0f6ff, #f2f8f5, #fefbf3, #fff6f0, #fcf2f4);
+            background-size: 280% 280%;
+            animation: morandiSoftShift 18s ease infinite;
+            will-change: background-position;
+        }
+
+        /* 深色莫蘭迪夜晚色彩 */
+        .dark .dopamine-bg {
+            background: linear-gradient(-45deg, #131924, #18221f, #22201b, #261f1c, #241a20);
+            background-size: 280% 280%;
+            animation: morandiSoftShift 18s ease infinite;
+            will-change: background-position;
+        }
+
+        .floating-orb {
+            animation: floatOrbSoft 12s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        /* 超柔霧玻璃質感 */
+        .dopamine-glass {
+            background: rgba(255, 255, 255, 0.72);
+            border: 1.5px solid rgba(255, 255, 255, 0.85);
+            box-shadow: 0 20px 40px -10px rgba(120, 149, 178, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            transform: translateZ(0);
+        }
+
+        .dark .dopamine-glass {
+            background: rgba(20, 27, 38, 0.82);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            transform: translateZ(0);
+        }
+
+        /* 順暢按鈕微互動 */
+        .flat-btn {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dark .flat-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .flat-btn:active {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        .tactile-btn {
+            transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease;
+            will-change: transform;
+        }
+        .tactile-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* 拖曳動畫流暢化 */
+        .quiz-card-item {
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, opacity 0.2s ease, border-color 0.2s ease;
+            will-change: transform, opacity;
+        }
+
+        .dragging-card {
+            opacity: 0.75;
+            transform: scale(1.02);
+            border-color: #38bdf8 !important;
+            box-shadow: 0 12px 28px rgba(56, 189, 248, 0.2) !important;
+        }
+
+        /* 隱藏滾動條與優化滾動 */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; scroll-behavior: smooth; }
+
+        /* 超柔莫蘭迪便利貼顏色 */
+        .sticky-blue { background: rgba(235, 243, 250, 0.95); border: 1px solid #b9d7ea; color: #2c4251; }
+        .sticky-green { background: rgba(238, 245, 240, 0.95); border: 1px solid #c2e0cf; color: #274030; }
+        .sticky-yellow { background: rgba(252, 248, 238, 0.95); border: 1px solid #f0e3c4; color: #4e402b; }
+        .sticky-orange { background: rgba(253, 244, 238, 0.95); border: 1px solid #f2d2c1; color: #523425; }
+        .sticky-red { background: rgba(253, 240, 242, 0.95); border: 1px solid #f3c5cc; color: #54222a; }
+        
+        .dark .sticky-blue { background: rgba(28, 41, 56, 0.9); border: 1px solid rgba(120, 149, 178, 0.3); color: #d0e1fd; }
+        .dark .sticky-green { background: rgba(26, 42, 33, 0.9); border: 1px solid rgba(163, 184, 153, 0.3); color: #d1f2dd; }
+        .dark .sticky-yellow { background: rgba(43, 38, 28, 0.9); border: 1px solid rgba(232, 225, 215, 0.3); color: #faebd7; }
+        .dark .sticky-orange { background: rgba(46, 32, 26, 0.9); border: 1px solid rgba(232, 211, 197, 0.3); color: #fce8db; }
+        .dark .sticky-red { background: rgba(46, 26, 32, 0.9); border: 1px solid rgba(226, 180, 189, 0.3); color: #fde2e7; }
+    </style>
+</head>
+<body class="dopamine-bg text-[#1e293b] dark:text-[#f1f5f9] h-full overflow-hidden">
+
+    <!-- 網頁開啟過渡畫面 (Splash Screen) -->
+    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-900/95 backdrop-blur-md text-white transition-opacity duration-500 pointer-events-auto">
+        <div class="flex flex-col items-center space-y-4 px-6 text-center max-w-sm">
+            <div class="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-sky-300 via-teal-200 to-rose-200 p-1 flex items-center justify-center shadow-2xl">
+                <div class="w-full h-full bg-slate-900 rounded-[22px] flex items-center justify-center text-3xl">
+                    📱
+                </div>
+            </div>
+            <div>
+                <h1 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-teal-100 to-amber-100">
+                    被「點亮」的焦慮：滑動世代的情緒防線
+                </h1>
+                <p class="text-xs text-slate-300 mt-1">正常使用與依賴使用行為的心理拔河</p>
+            </div>
+            <div class="w-48 bg-slate-800/80 h-1.5 rounded-full overflow-hidden mt-3">
+                <div id="splash-progress" class="bg-gradient-to-r from-sky-300 to-teal-300 h-full w-0 transition-all duration-1000 ease-out"></div>
+            </div>
+            <button onclick="dismissSplash()" class="text-[10px] text-slate-400 hover:text-white underline pt-2 transition-colors">
+                跳過過渡頁面 ➔
+            </button>
+        </div>
+    </div>
+
+    <!-- 背景動態超軟色調光暈 -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none select-none">
+        <div class="floating-orb absolute -top-10 -left-10 w-96 h-96 rounded-full bg-sky-200/35 dark:bg-sky-900/20 blur-[100px]"></div>
+        <div class="floating-orb absolute top-1/3 -right-10 w-96 h-96 rounded-full bg-emerald-200/30 dark:bg-emerald-950/20 blur-[100px]" style="animation-delay: -4s;"></div>
+        <div class="floating-orb absolute -bottom-10 left-1/3 w-96 h-96 rounded-full bg-rose-200/30 dark:bg-rose-950/20 blur-[100px]" style="animation-delay: -8s;"></div>
+    </div>
+
+    <!-- 主框架容器 -->
+    <div class="h-full w-full max-w-md md:max-w-2xl lg:max-w-3xl mx-auto flex flex-col justify-between relative shadow-2xl md:my-2.5 md:h-[calc(100vh-1.25rem)] md:rounded-dopamine dopamine-glass overflow-hidden">
+        
+        <!-- 頂部標題與工具欄 -->
+        <header id="app-header" class="px-4 sm:px-5 pt-3.5 pb-2 flex flex-col justify-start select-none z-10 shrink-0 border-b border-slate-900/5 dark:border-white/5">
+            <div class="flex justify-between items-center mb-1">
+                <span class="text-[10px] font-extrabold tracking-wider text-sky-800 dark:text-sky-200 uppercase bg-sky-100/70 dark:bg-sky-950/60 px-2.5 py-0.5 rounded-full border border-sky-200/60 dark:border-sky-800/40 shadow-2xs">
+                    📱 滑動世代的情緒防線檢測平台
+                </span>
+                
+                <div class="flex items-center gap-1.5">
+                    <button id="scoring-btn" onclick="openScoringModal()" class="flat-btn flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full text-[10px] font-bold text-slate-700 dark:text-sky-200" title="評分機制">
+                        <span>📊</span>
+                        <span class="hidden sm:inline">評分機制</span>
+                    </button>
+                    <button id="info-btn" onclick="openModal()" class="flat-btn flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full text-[10px] font-bold text-slate-700 dark:text-sky-200" title="測驗說明">
+                        <span>ⓘ</span>
+                        <span class="hidden sm:inline">測驗說明</span>
+                    </button>
+                    <button id="disclaimer-btn" onclick="openDisclaimerModal()" class="flat-btn flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full text-[10px] font-bold text-slate-700 dark:text-sky-200" title="版權與免責聲明">
+                        <span>📋</span>
+                        <span class="hidden sm:inline">免責聲明</span>
+                    </button>
+                    <button id="theme-btn" onclick="toggleTheme()" class="flat-btn flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full text-[10px] font-bold text-slate-700 dark:text-sky-200" title="深淺模式">
+                        <span id="theme-icon">🌙</span>
+                        <span id="theme-text" class="hidden sm:inline">深色模式</span>
+                    </button>
+                </div>
+            </div>
+            
+            <h1 id="header-title" class="text-base sm:text-lg font-black tracking-tight text-slate-800 dark:text-white mt-0.5">
+                被「點亮」的焦慮：滑動世代的情緒防線
+            </h1>
+            <p id="header-subtitle" class="text-[10.5px] sm:text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-snug line-clamp-2 font-medium">
+                正常使用與依賴使用行為的心理拔河
+            </p>
+
+            <!-- 進度條 -->
+            <div id="progress-container" class="w-full bg-slate-200/60 dark:bg-slate-800/60 h-1.5 rounded-full mt-2 overflow-hidden hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-sky-400 via-teal-400 via-amber-300 to-rose-300 h-full w-0 transition-all duration-300 rounded-full"></div>
+            </div>
+        </header>
+
+        <!-- 中央主要內容區 -->
+        <main class="flex-grow flex flex-col justify-start overflow-hidden px-4 py-2 relative z-10">
+            
+            <!-- 1. 歡迎填寫首頁 (Step 0) -->
+            <div id="view-landing" class="view-fade-in w-full h-full flex flex-col items-center justify-between space-y-3 px-1 overflow-y-auto no-scrollbar">
+                <div class="bg-gradient-to-br from-white/90 via-sky-50/60 to-rose-50/40 dark:from-slate-900/90 dark:via-sky-950/40 dark:to-slate-900 p-4 sm:p-5 rounded-card border border-white/80 dark:border-white/10 shadow-sm text-center w-full max-w-md flex flex-col items-center space-y-3 my-auto">
+                    
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-sky-400/90 to-teal-400/90 text-white text-[10px] font-black shadow-xs">
+                        <span>👋 歡迎填寫心智檢測</span>
+                        <span class="bg-white/25 px-1.5 py-0.2 rounded-full text-[9px]">約 2 分鐘</span>
+                    </div>
+
+                    <!-- 手機視覺圖案 -->
+                    <div class="relative w-28 h-44 sm:w-32 sm:h-48 bg-slate-900 rounded-[28px] p-2 shadow-lg border-4 border-slate-200/90 dark:border-slate-700 flex flex-col justify-between overflow-hidden my-1">
+                        <div class="w-12 h-2.5 bg-black rounded-full mx-auto z-20 flex items-center justify-between px-1.5">
+                            <div class="w-1 h-1 rounded-full bg-sky-300"></div>
+                            <div class="w-1 h-1 rounded-full bg-teal-300"></div>
+                        </div>
+
+                        <div class="absolute inset-2 bg-gradient-to-b from-sky-200 via-teal-100 via-amber-100 to-rose-200 rounded-[20px] flex flex-col items-center justify-between p-2 text-slate-800 overflow-hidden shadow-inner">
+                            <div class="w-full flex justify-between text-[8px] font-bold opacity-80 px-1">
+                                <span>09:41</span>
+                                <span>⚡ 5G</span>
+                            </div>
+
+                            <div class="flex flex-col items-center">
+                                <div class="w-9 h-9 rounded-xl bg-white/50 backdrop-blur-md flex items-center justify-center text-xl shadow-xs border border-white/60">
+                                    🔓
+                                </div>
+                                <span class="text-[8.5px] font-black text-slate-800 bg-white/90 px-2 py-0.5 rounded-full mt-1.5 shadow-xs">
+                                    多巴胺檢測中...
+                                </span>
+                            </div>
+
+                            <div class="w-full space-y-1 bg-white/30 backdrop-blur-sm p-1 rounded-lg border border-white/40">
+                                <div class="h-1 bg-white/80 rounded-full w-full"></div>
+                                <div class="h-1 bg-white/60 rounded-full w-3/4"></div>
+                            </div>
+                        </div>
+
+                        <div class="w-10 h-1 bg-slate-300/80 rounded-full mx-auto z-20"></div>
+                    </div>
+
+                    <h2 class="text-sm sm:text-base text-slate-800 dark:text-white font-black tracking-tight">
+                        您是手機的主人，還是被多巴胺牽制？
+                    </h2>
+                    <p class="text-[10.5px] sm:text-xs text-sky-900 dark:text-sky-200 font-medium leading-relaxed px-1">
+                        歡迎您參與本體驗！您將透過 <b>5 個心智構面卡牌</b>，進行一場直觀有趣的心理拔河排序。
+                    </p>
+                </div>
+
+                <div class="bg-white/70 dark:bg-black/30 p-3 rounded-card border border-white/80 dark:border-white/10 shadow-xs text-left w-full max-w-md space-y-1">
+                    <h3 class="text-[11px] font-black text-sky-800 dark:text-sky-300 flex items-center gap-1.5 border-b border-slate-900/5 dark:border-white/5 pb-1">
+                        <span>🎮</span> 心理拔河作答規則：
+                    </h3>
+                    <p class="text-[10px] sm:text-[10.5px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                        每個構面包含 5 張具有不同<b>干擾嚴重程度</b>的情境卡牌。請依實際現狀，將卡牌<b>由「最符合自己（最上方）」至「最不符合自己（最下方）」透過按鈕或拖曳進行排序</b>。
+                    </p>
+                </div>
+            </div>
+
+            <!-- 2. 測驗作答畫面 (Step 1 to 5) -->
+            <div id="view-quiz" class="hidden w-full h-full flex flex-col justify-between overflow-hidden">
+                <div class="text-center select-none shrink-0 mb-1">
+                    <span class="inline-flex items-center text-[9.5px] font-bold text-slate-700 dark:text-slate-200 bg-white/75 dark:bg-black/40 px-3 py-1 rounded-full border border-sky-200 dark:border-sky-800 shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-sky-400 mr-1.5"></span>最上方：最符合您現狀
+                        <span class="mx-2 text-slate-300 dark:text-slate-600">|</span>
+                        <span class="w-2 h-2 rounded-full bg-slate-300 mr-1.5"></span>最下方：最不符合您現狀
+                    </span>
+                </div>
+
+                <div id="cards-container" class="flex-grow flex flex-col gap-2 max-w-md md:max-w-2xl lg:max-w-3xl mx-auto w-full overflow-y-auto no-scrollbar py-1">
+                    <!-- JS 動態渲染圖文卡牌 -->
+                </div>
+            </div>
+
+            <!-- 3. 測驗結果頁面 (Step 6) -->
+            <div id="view-results" class="hidden w-full h-full flex flex-col space-y-3 overflow-y-auto no-scrollbar py-1">
+                
+                <div class="bg-gradient-to-r from-sky-400 via-teal-400 to-rose-300 text-slate-900 p-3.5 rounded-dopamine shadow-xs text-center space-y-0.5">
+                    <div class="text-xl">🎉✨</div>
+                    <h2 class="text-sm font-black tracking-tight">
+                        感謝您的填寫！
+                    </h2>
+                    <p class="text-[10px] sm:text-xs opacity-90 font-medium">
+                        感謝您完成《被「點亮」的焦慮：滑動世代的情緒防線》測驗，已為您生成專屬心理拔河戰況與防護建議！
+                    </p>
+                </div>
+
+                <div id="sheets-sync-bar" class="w-full px-3 py-1.5 rounded-xl text-[9.5px] font-bold text-center flex items-center justify-center gap-2 bg-white/60 dark:bg-black/30 text-slate-600 dark:text-slate-300 border border-sky-100 dark:border-white/10 shadow-2xs">
+                    <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                    <span>正在將您的測驗戰況資料同步至雲端...</span>
+                </div>
+
+                <!-- 診斷卡 -->
+                <div class="bg-gradient-to-br from-white/90 via-sky-50/50 to-emerald-50/40 dark:from-slate-900/90 dark:via-sky-950/20 dark:to-slate-900 border border-white/80 dark:border-white/10 p-3.5 rounded-dopamine shadow-xs text-center space-y-1.5">
+                    <div class="inline-block bg-sky-500/90 text-white text-[9.5px] font-black px-3 py-0.5 rounded-full shadow-2xs">
+                        🏆 數位依賴焦慮總得分
+                    </div>
+
+                    <div class="flex items-baseline justify-center gap-1 my-0.5">
+                        <span id="total-score-num" class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-600 via-teal-600 to-rose-500 dark:from-sky-300 dark:to-teal-300">
+                            0
+                        </span>
+                        <span class="text-xs font-bold text-slate-400 dark:text-slate-500">/ 100 分</span>
+                    </div>
+
+                    <h2 id="tug-verdict" class="text-xs sm:text-sm font-black text-slate-800 dark:text-white">
+                        計算中...
+                    </h2>
+                    <p id="tug-percentage-stat" class="text-[10px] sm:text-[10.5px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium px-2">
+                        分析中，請稍候...
+                    </p>
+                </div>
+
+                <!-- 拔河繩索圖表 -->
+                <div class="bg-white/70 dark:bg-black/30 p-3 rounded-dopamine border border-white/80 dark:border-white/10 space-y-2 shadow-2xs">
+                    <div class="flex justify-between text-[9px] font-black px-1">
+                        <span class="text-emerald-700 dark:text-emerald-300">現實自主 (0分)</span>
+                        <span class="text-rose-700 dark:text-rose-300">重度依賴 (100分)</span>
+                    </div>
+                    
+                    <div class="relative h-6 flex items-center">
+                        <div class="absolute w-full h-2.5 bg-gradient-to-r from-emerald-300 via-amber-200 via-orange-300 to-rose-400 rounded-full shadow-inner"></div>
+                        <div id="rope-node" class="absolute w-6 h-6 -ml-3 bg-white dark:bg-slate-800 rounded-full shadow-md border-2 border-sky-500 flex items-center justify-center transition-all duration-500 ease-out" style="left: 50%;">
+                            <span class="text-[9px]">🎗️</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 雷達圖分析 -->
+                <div class="bg-white/70 dark:bg-black/30 p-3 rounded-dopamine border border-white/80 dark:border-white/10 space-y-2">
+                    <h3 class="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 text-center flex items-center justify-center gap-1">
+                        <span>📊</span> 五大心智防線維度得分 (滿分各 20 分)
+                    </h3>
+                    <div class="flex justify-center py-1 bg-white/70 dark:bg-black/40 rounded-2xl p-2 border border-slate-900/5 dark:border-white/5">
+                        <svg id="radar-chart" width="200" height="200" viewBox="0 0 240 240" class="overflow-visible">
+                        </svg>
+                    </div>
+
+                    <div id="dimension-detail-panel" class="bg-slate-900/5 dark:bg-white/5 p-2.5 rounded-2xl border border-slate-900/5 dark:border-white/5 text-xs text-slate-700 dark:text-slate-300 space-y-1.5">
+                        <p class="font-black text-slate-800 dark:text-white text-center text-[10px] flex items-center justify-center gap-1">
+                            <span>💡</span> 點擊按鈕解鎖各構面診斷：
+                        </p>
+                        <div class="grid grid-cols-2 gap-1.5 pt-1">
+                            <button onclick="showDimensionFeedback('emotion')" class="tactile-btn py-1 px-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-900/5 dark:border-white/10 text-[9.5px] font-bold">1. 情緒層面</button>
+                            <button onclick="showDimensionFeedback('selfControl')" class="tactile-btn py-1 px-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-900/5 dark:border-white/10 text-[9.5px] font-bold">2. 自我控制</button>
+                            <button onclick="showDimensionFeedback('dailyLife')" class="tactile-btn py-1 px-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-900/5 dark:border-white/10 text-[9.5px] font-bold">3. 日常生活</button>
+                            <button onclick="showDimensionFeedback('dependency')" class="tactile-btn py-1 px-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-900/5 dark:border-white/10 text-[9.5px] font-bold">4. 依賴性</button>
+                            <button onclick="showDimensionFeedback('socialImpact')" class="tactile-btn py-1 px-2 rounded-xl bg-white/80 dark:bg-slate-800/80 border border-slate-900/5 dark:border-white/10 text-[9.5px] font-bold col-span-2">5. 社會影響</button>
+                        </div>
+                        <div id="dimension-feedback-text" class="mt-2 p-2 bg-sky-50/80 dark:bg-sky-950/40 rounded-xl border border-sky-200/60 dark:border-sky-800/40 text-sky-950 dark:text-sky-200 hidden leading-relaxed text-[10px] font-medium">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI 個人防護策略 -->
+                <div id="ai-section" class="bg-gradient-to-br from-sky-50/90 to-emerald-50/80 dark:from-slate-900 dark:to-sky-950/60 p-3 rounded-dopamine border border-sky-200/50 dark:border-sky-800/30 space-y-1.5">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-6 h-6 rounded-full bg-sky-500 text-white flex items-center justify-center text-xs shadow-xs">🧠</div>
+                        <div>
+                            <h3 class="text-[10.5px] font-bold text-slate-800 dark:text-white">AI 個人防護策略分析</h3>
+                            <p class="text-[8.5px] text-slate-500 dark:text-slate-400 font-medium">專屬行為客製化解析</p>
+                        </div>
+                    </div>
+                    <div id="ai-response-container" class="text-[10px] leading-relaxed text-slate-600 dark:text-slate-300 bg-white/80 dark:bg-black/30 p-2.5 rounded-2xl border border-slate-900/5 dark:border-white/10 shadow-inner">
+                    </div>
+                </div>
+
+                <!-- AI 手機退癮生活導航 (升級版 Gemini 智慧對話) -->
+                <div class="bg-white/70 dark:bg-black/30 p-3 rounded-dopamine border border-white/80 dark:border-white/10 space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-base">💬</span>
+                            <div>
+                                <h4 class="text-[10.5px] font-bold text-slate-800 dark:text-white">AI 手機退癮生活導航</h4>
+                                <p class="text-[8.5px] text-slate-500 dark:text-slate-400 font-medium">Gemini AI 上下文動態智慧諮詢</p>
+                            </div>
+                        </div>
+                        <button onclick="openChatModal()" class="tactile-btn px-2.5 py-1 text-[8.5px] font-black rounded-full bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-sky-200">
+                            放大檢視 🔍
+                        </button>
+                    </div>
+                    
+                    <div id="chat-history" class="h-32 overflow-y-auto space-y-2 p-2 bg-white/60 dark:bg-black/40 rounded-2xl border border-slate-900/5 dark:border-white/10 no-scrollbar text-[10px]">
+                    </div>
+
+                    <div class="flex gap-1.5">
+                        <input id="chat-input" type="text" placeholder="例如：睡前如何避免一直拿手機？還有其他建議嗎？" class="flex-grow bg-white/90 dark:bg-slate-900/80 border border-slate-900/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-[10px] focus:outline-none focus:ring-1.5 focus:ring-sky-400 text-slate-800 dark:text-slate-200 shadow-inner">
+                        <button onclick="sendChatMessage('chat-input')" class="tactile-btn px-3 py-1 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-[10px] font-bold">
+                            諮詢
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 留言板 -->
+                <div class="bg-white/70 dark:bg-black/30 p-3 rounded-dopamine border border-white/80 dark:border-white/10 space-y-2">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <div class="flex items-center space-x-1.5">
+                            <span class="text-base">📌</span>
+                            <div>
+                                <h4 class="text-[10.5px] font-bold text-slate-800 dark:text-white">探索者分享留言板</h4>
+                                <p class="text-[8.5px] text-slate-500 dark:text-slate-400 font-medium">觀摩其他探索者心得</p>
+                            </div>
+                        </div>
+                        <button onclick="openFeedbackModal()" class="tactile-btn px-2.5 py-0.5 text-[8.5px] font-black rounded-full bg-gradient-to-r from-sky-500 to-teal-500 text-white">
+                            看看便利貼牆 💬
+                        </button>
+                    </div>
+
+                    <div class="space-y-1">
+                        <input id="feedback-username" type="text" maxlength="15" placeholder="暱稱 (選填，預設為匿名探索者)" class="w-full bg-white/90 dark:bg-slate-900/80 border border-slate-900/10 dark:border-white/10 rounded-xl px-2.5 py-1 text-[10px] focus:outline-none focus:ring-1.5 focus:ring-sky-400 text-slate-800 dark:text-slate-200 shadow-inner">
+                        <textarea id="feedback-input" placeholder="請留下您對測驗題目、體驗或退癮心得的心聲..." class="w-full h-11 bg-white/90 dark:bg-slate-900/80 border border-slate-900/10 dark:border-white/10 rounded-xl p-2 text-[10px] focus:outline-none focus:ring-1.5 focus:ring-sky-400 text-slate-800 dark:text-slate-200 resize-none shadow-inner"></textarea>
+                    </div>
+                    
+                    <button onclick="sendFeedback(event)" id="btn-submit-feedback" class="tactile-btn w-full py-1.5 rounded-xl bg-gradient-to-r from-sky-400 to-teal-500 text-white text-[10px] font-black flex items-center justify-center gap-1">
+                        <span>送出留言與建議</span>
+                    </button>
+                    <div id="feedback-status" class="hidden text-[8.5px] font-bold text-center"></div>
+                </div>
+
+                <button onclick="restartQuiz()" class="tactile-btn w-full py-2 rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/5 text-[10px] font-bold text-slate-700 dark:text-slate-300 mt-1">
+                    重新進行測驗 ➔
+                </button>
+
+                <div class="mt-3 pt-2 border-t border-slate-900/5 dark:border-white/5 flex flex-col items-center space-y-1 text-[8.5px] text-slate-500 dark:text-slate-400 text-center">
+                    <button onclick="openDisclaimerModal()" class="inline-flex items-center gap-1 text-[9px] font-extrabold text-sky-700 dark:text-sky-300 hover:underline px-2.5 py-1 rounded-full bg-sky-50/80 dark:bg-sky-950/50 border border-sky-200/50 dark:border-sky-800/40 transition-all shadow-2xs">
+                        <span>📋</span>
+                        <span>查看 版權與免責聲明</span>
+                    </button>
+                    <p>© 2026《被「點亮」的焦慮：滑動世代的情緒防線》專題研究團隊. All Rights Reserved.</p>
+                    <p class="font-bold text-sky-700 dark:text-sky-300">⭐ 本測驗網頁由 1411233050 與 Gemini AI 協同設計製作 | 版本：v8.5 ⭐</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- 底置控制按鈕區 -->
+        <footer id="app-footer" class="px-4 sm:px-5 pb-3.5 pt-1 z-10 shrink-0">
+            <div class="flex gap-2 justify-end items-center">
+                <button id="prev-btn" onclick="prevStep(event)" class="tactile-btn w-1/3 py-2 rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/5 text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1 hidden">
+                    ‹ 返回
+                </button>
+                <button id="next-btn" onclick="nextStep(event)" class="tactile-btn w-full py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-black flex items-center justify-center gap-1 shadow-xs">
+                    <span>開始心理拔河 ➔</span>
+                </button>
+            </div>
+        </footer>
+
+        <!-- 📊 評分機制 Modal -->
+        <div id="scoring-modal" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4">
+            <div class="bg-white/95 dark:bg-slate-900/95 w-full max-w-md rounded-dopamine p-4 shadow-2xl border border-white/30 dark:border-white/10 max-h-[88vh] overflow-y-auto no-scrollbar" id="scoring-modal-card">
+                <div class="flex justify-between items-center mb-2 border-b border-slate-900/5 dark:border-white/5 pb-1.5">
+                    <h3 class="text-xs sm:text-sm font-black text-sky-700 dark:text-sky-300 flex items-center gap-1.5">
+                        <span>📊</span> 評分機制與計算圖解
+                    </h3>
+                    <button onclick="closeScoringModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-xs">✕</button>
+                </div>
+                
+                <div class="space-y-3 text-[10px] sm:text-[10.5px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <div class="bg-gradient-to-r from-sky-50 to-emerald-50 dark:from-sky-950/40 dark:to-emerald-950/40 p-2.5 rounded-2xl border border-sky-100 dark:border-sky-800/30 shadow-2xs space-y-1.5">
+                        <div class="font-black text-sky-900 dark:text-sky-200 text-xs flex items-center gap-1">
+                            <span>💡</span> 3 步驟搞懂您的 0～100 分數由來：
+                        </div>
+                        <div class="grid grid-cols-3 gap-1.5 text-center text-[8.5px] font-bold">
+                            <div class="bg-white/80 dark:bg-black/40 p-1.5 rounded-xl border border-sky-200/50 dark:border-sky-800/30">
+                                <div class="text-sky-600 dark:text-sky-400 font-extrabold text-[10px]">① 擺放位置</div>
+                                <div class="text-slate-500 dark:text-slate-400 mt-0.5">越上方權重越高<br>(5 分 ➔ 1 分)</div>
+                            </div>
+                            <div class="bg-white/80 dark:bg-black/40 p-1.5 rounded-xl border border-emerald-200/50 dark:border-emerald-800/30">
+                                <div class="text-emerald-600 dark:text-emerald-400 font-extrabold text-[10px]">② 卡牌嚴重度</div>
+                                <div class="text-slate-500 dark:text-slate-400 mt-0.5">每張卡有固有標籤<br>(✦1 輕微 ➔ ✦5 極度)</div>
+                            </div>
+                            <div class="bg-white/80 dark:bg-black/40 p-1.5 rounded-xl border border-amber-200/50 dark:border-amber-800/30">
+                                <div class="text-amber-600 dark:text-amber-400 font-extrabold text-[10px]">③ 構面加總</div>
+                                <div class="text-slate-500 dark:text-slate-400 mt-0.5">5大構面得分相加<br>(滿分為 100 分)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 dark:bg-black/30 p-2.5 rounded-2xl border border-slate-900/5 dark:border-white/5 space-y-1.5">
+                        <div class="font-black text-slate-800 dark:text-white flex items-center gap-1 text-[11px]">
+                            <span class="w-4 h-4 rounded-full bg-sky-400 text-white text-[9px] flex items-center justify-center">1</span>
+                            卡牌排序位置對應權重 (Pos_i)
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[9.5px]">當您將卡牌排在不同的上下位置，代表該情境對您的符合程度：</p>
+                        <div class="space-y-1 pt-1 font-mono text-[8.5px]">
+                            <div class="flex items-center justify-between bg-sky-100/70 dark:bg-sky-950/50 px-2 py-1 rounded-lg border border-sky-200 dark:border-sky-800/40 font-bold">
+                                <span>▲ 第 1 位 (最上方：最符合)</span>
+                                <span class="bg-sky-500 text-white px-1.5 py-0.2 rounded">位置權重 = 5</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-emerald-100/60 dark:bg-emerald-950/40 px-2 py-0.5 rounded-lg border border-emerald-200 dark:border-emerald-800/30">
+                                <span>｜ 第 2 位</span>
+                                <span class="bg-emerald-500 text-white px-1.5 py-0.2 rounded">位置權重 = 4</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-amber-100/60 dark:bg-amber-950/40 px-2 py-0.5 rounded-lg border border-amber-200 dark:border-amber-800/30">
+                                <span>｜ 第 3 位</span>
+                                <span class="bg-amber-500 text-white px-1.5 py-0.2 rounded">位置權重 = 3</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-orange-100/60 dark:bg-orange-950/40 px-2 py-0.5 rounded-lg border border-orange-200 dark:border-orange-800/30">
+                                <span>｜ 第 4 位</span>
+                                <span class="bg-orange-500 text-white px-1.5 py-0.2 rounded">位置權重 = 2</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-rose-100/70 dark:bg-rose-950/50 px-2 py-1 rounded-lg border border-rose-200 dark:border-rose-800/40 font-bold">
+                                <span>▼ 第 5 位 (最下方：最不符合)</span>
+                                <span class="bg-rose-500 text-white px-1.5 py-0.2 rounded">位置權重 = 1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 dark:bg-black/30 p-2.5 rounded-2xl border border-slate-900/5 dark:border-white/5 space-y-1.5">
+                        <div class="font-black text-slate-800 dark:text-white flex items-center gap-1 text-[11px]">
+                            <span class="w-4 h-4 rounded-full bg-emerald-400 text-white text-[9px] flex items-center justify-center">2</span>
+                            單一構面分數計算 (滿分 20 分)
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[9.5px]">
+                            將每張卡牌的<b>「位置權重」</b>乘以卡牌本身的<b>「嚴重程度標籤」</b>相加後，減去基準值 35 分：
+                        </p>
+                        
+                        <div class="bg-slate-100 dark:bg-black/40 p-2 rounded-xl text-center font-mono text-[9px] border border-slate-900/5 dark:border-white/10 text-slate-700 dark:text-slate-200">
+                            DimScore = Sum(Pos_i * S_i) - 35
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 dark:bg-black/30 p-2.5 rounded-2xl border border-slate-900/5 dark:border-white/5 space-y-1.5">
+                        <div class="font-black text-slate-800 dark:text-white flex items-center gap-1 text-[11px]">
+                            <span class="w-4 h-4 rounded-full bg-amber-400 text-white text-[9px] flex items-center justify-center">3</span>
+                            五大構面總得分 (TotalScore)
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 text-[9.5px]">
+                            將情緒、自控、日常、依賴、社會五大維度的得分直接相加，即得到最終的<b>「數位依賴焦慮總得分」</b>。
+                        </p>
+                    </div>
+                </div>
+
+                <button onclick="closeScoringModal()" class="tactile-btn w-full mt-3 py-2 rounded-xl bg-sky-500 text-white font-extrabold text-xs shadow-xs">
+                    我瞭解評分計算邏輯了
+                </button>
+            </div>
+        </div>
+
+        <!-- 填答說明 Modal -->
+        <div id="info-modal" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-slate-900 w-full max-w-sm rounded-dopamine p-4 shadow-2xl border border-white/20 dark:border-white/10" id="info-modal-card">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="text-xs font-black text-sky-700 dark:text-sky-300">💡 心理拉鋸排序法則說明</h3>
+                    <button onclick="closeModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10">✕</button>
+                </div>
+                <div class="space-y-1.5 text-[10px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                    <p>1. 每個構面有 5 張具有標示<b>嚴重程度 (✦1 ~ ✦5)</b> 的情境卡片。</p>
+                    <p>2. 請依照實際現狀，將卡牌由<b>「最符合自己 (最上方)」至「最不符合自己 (最下方)」</b>調整順序。</p>
+                    <p>3. 請評估<b>「對現實生活的實質干擾程度」</b>做為排序主要依據。</p>
+                </div>
+                <button onclick="closeModal()" class="tactile-btn w-full mt-3 py-1.5 rounded-xl bg-sky-500 text-white font-extrabold text-xs">
+                    明白，繼續測驗
+                </button>
+            </div>
+        </div>
+
+        <!-- 📌 探索者便利貼牆 Modal -->
+        <div id="feedback-board-modal" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4">
+            <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl w-full max-w-md rounded-dopamine p-4 shadow-2xl border border-white/20 dark:border-white/10 flex flex-col max-h-[80vh]">
+                <div class="flex justify-between items-center mb-2 shrink-0">
+                    <h3 class="text-xs font-black text-sky-700 dark:text-sky-300">📌 探索者分享便利貼</h3>
+                    <button onclick="closeFeedbackModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10">✕</button>
+                </div>
+                
+                <div id="sticky-board-grid" class="grid grid-cols-2 gap-2 overflow-y-auto no-scrollbar p-1 flex-grow">
+                </div>
+
+                <button onclick="closeFeedbackModal()" class="tactile-btn w-full mt-2.5 py-1.5 rounded-xl bg-sky-500 text-white font-extrabold text-xs shrink-0">
+                    返回診斷主頁
+                </button>
+            </div>
+        </div>
+
+        <!-- 💬 AI 對話 Modal (全螢幕) -->
+        <div id="ai-chat-modal" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4">
+            <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl w-full max-w-md rounded-dopamine p-4 border border-white/20 dark:border-white/10 flex flex-col h-[75vh]">
+                <div class="flex justify-between items-center mb-2 shrink-0">
+                    <div class="flex items-center space-x-1.5">
+                        <span class="text-base">💬</span>
+                        <h3 class="text-xs font-black text-sky-700 dark:text-sky-300">AI 手機退癮生活導航 (全螢幕諮詢)</h3>
+                    </div>
+                    <button onclick="closeChatModal()" class="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10">✕</button>
+                </div>
+
+                <div id="chat-history-expanded" class="flex-grow overflow-y-auto space-y-2 p-2.5 bg-white/50 dark:bg-black/40 rounded-2xl border border-slate-900/5 dark:border-white/10 no-scrollbar mb-2 text-[10px]">
+                </div>
+
+                <div class="flex gap-1.5 shrink-0">
+                    <input id="chat-input-expanded" type="text" placeholder="輸入您的困擾（例如：讀書時一直想拿手機怎麼辦？還有其他建議嗎？）..." class="flex-grow bg-white dark:bg-slate-800 border border-slate-900/10 dark:border-white/10 rounded-xl px-2.5 py-1.5 text-[10px] focus:outline-none focus:ring-1.5 focus:ring-sky-400 text-slate-800 dark:text-slate-200 shadow-inner">
+                    <button onclick="sendChatMessage('chat-input-expanded')" class="tactile-btn px-3 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-[10px] font-bold shrink-0">
+                        諮詢
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📋 版權與免責聲明 Modal -->
+        <div id="disclaimer-modal" class="absolute inset-0 bg-black/40 dark:bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-200 z-50 flex items-center justify-center p-4">
+            <div class="bg-white/95 dark:bg-slate-900/95 w-full max-w-sm rounded-dopamine p-4 shadow-2xl border border-white/20 dark:border-white/10 flex flex-col max-h-[80vh]">
+                <div class="flex justify-between items-center mb-2 border-b border-slate-900/5 dark:border-white/5 pb-1.5 shrink-0">
+                    <h3 class="text-xs font-black text-sky-700 dark:text-sky-300 flex items-center gap-1">
+                        <span>📋</span> 版權與免責聲明
+                    </h3>
+                    <button onclick="closeDisclaimerModal()" class="p-1 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-xs">✕</button>
+                </div>
+                
+                <div class="overflow-y-auto no-scrollbar space-y-2.5 text-[9.5px] text-slate-600 dark:text-slate-300 leading-relaxed font-medium flex-grow pr-0.5">
+                    
+                    <div class="bg-sky-50 dark:bg-sky-950/50 p-2.5 rounded-2xl border border-sky-100 dark:border-sky-800/40 text-center space-y-0.5">
+                        <p class="font-extrabold text-sky-900 dark:text-sky-200 text-[10px]">《被「點亮」的焦慮：滑動世代的情緒防線》專題研究團隊</p>
+                        <p class="text-[8.5px] text-sky-700 dark:text-sky-300 font-bold">Copyright © 2026 All Rights Reserved.</p>
+                        <p class="text-[9px] font-black text-slate-800 dark:text-slate-200 mt-1">⭐ 本測驗網頁由 1411233050 與 Gemini AI 協同設計製作 | 版本：v8.5 ⭐</p>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <div class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1">
+                            <span>一、 學術研究與自我覺察用途</span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 pl-2 border-l-2 border-sky-400">
+                            本平台專門設計用於滑世代數位使用習慣之學術研究與自我健康覺察，評估結果旨在幫助使用者探索個人手機依賴現狀。
+                        </p>
+
+                        <div class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1 pt-1">
+                            <span>二、 非臨床醫療診斷聲明</span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 pl-2 border-l-2 border-amber-400">
+                            本測驗之得分與分析結果非臨床精神或心理醫療診斷。若您持續感受嚴重焦慮、情緒低落或生活秩序失控，建議尋求專業臨床心理師或醫療機構之諮詢協助。
+                        </p>
+
+                        <div class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-1 pt-1">
+                            <span>三、 AI 導航建議說明</span>
+                        </div>
+                        <p class="text-slate-500 dark:text-slate-400 pl-2 border-l-2 border-emerald-400">
+                            系統內建之 AI 個人化策略與退癮導航僅供日常生活習慣調整之參考建議，使用者應依自身狀況彈性運用。
+                        </p>
+                    </div>
+
+                </div>
+
+                <button onclick="closeDisclaimerModal()" class="tactile-btn w-full mt-2.5 py-1.5 rounded-xl bg-sky-500 text-white font-extrabold text-xs shrink-0 shadow-xs">
+                    我已閱讀並同意
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ==========================================
+        // 核心資料集與獨立雲端網址
+        // ==========================================
+        const GOOGLE_RESPONSE_URL = "https://script.google.com/macros/s/AKfycbzb-2gB7sob5GY33Ms1sfD5Hm1dE-NbaBe1z7hN743IdfallG5xlvjcko4Mmnth9bPsKw/exec";
+        const GOOGLE_FEEDBACK_URL = "https://script.google.com/macros/s/AKfycbw8OQFwbr8FbrnlRJo2mkfDeDdMJUl2yRdNaZJPtSppCb4sa-VdDHnZJnkKHcsMlarBXA/exec";
+
+        // 柔和淡彩莫蘭迪嚴重程度標籤
+        const severityBadges = {
+            1: { title: "輕微干擾", code: "✦1", badgeBg: "bg-emerald-50 text-emerald-800 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-800" },
+            2: { title: "輕度干擾", code: "✦2", badgeBg: "bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-950/60 dark:text-amber-200 dark:border-amber-800" },
+            3: { title: "中度干擾", code: "✦3", badgeBg: "bg-orange-50 text-orange-900 border-orange-200 dark:bg-orange-950/60 dark:text-orange-200 dark:border-orange-800" },
+            4: { title: "重度干擾", code: "✦4", badgeBg: "bg-rose-50 text-rose-900 border-rose-200 dark:bg-rose-950/60 dark:text-rose-200 dark:border-rose-800" },
+            5: { title: "極度干擾", code: "✦5", badgeBg: "bg-red-50 text-red-950 border-red-300 dark:bg-red-950/80 dark:text-red-200 dark:border-red-800" }
+        };
+
+        const quizData = [
+            {
+                id: 'emotion',
+                title: '一、 情緒層面 (Emotion)',
+                desc: '手機通知與動態訊息，是否正顯著牽動著您的情緒變化與焦慮感？',
+                items: [
+                    { severity: 1, text: "跳出通知無法立刻查看時，心裡會感到有些浮躁不安。", icon: "🔔", bg: "from-sky-50 to-sky-100 dark:from-sky-950/30 dark:to-sky-900/30", tag: "通知浮躁" },
+                    { severity: 2, text: "看到他人精彩動態，常莫名感到失落、羨羨或焦慮。", icon: "🪞", bg: "from-teal-50 to-sky-50 dark:from-teal-950/30 dark:to-sky-950/30", tag: "社群比較" },
+                    { severity: 3, text: "訊息被已讀不回或按讚少時，整天心情低落並頻繁檢查。", icon: "💬", bg: "from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30", tag: "已讀焦慮" },
+                    { severity: 4, text: "一段時間不能用手機時，會變得容易煩躁易怒。", icon: "⚡", bg: "from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30", tag: "禁斷煩躁" },
+                    { severity: 5, text: "網路斷線或手機遺失時，會陷入極度恐慌與秩序瓦解感。", icon: "🚨", bg: "from-rose-50 to-orange-50 dark:from-rose-950/30 dark:to-orange-950/30", tag: "斷網恐慌" }
+                ]
+            },
+            {
+                id: 'selfControl',
+                title: '二、 自我控制 (Self-Control)',
+                desc: '您是否時常偏離最初預期的使用時間，陷入非自主的滑動行為？',
+                items: [
+                    { severity: 1, text: "準備讀書或工作前，習慣先滑一下手機而耽誤開始。", icon: "⏳", bg: "from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/30", tag: "起手拖延" },
+                    { severity: 2, text: "心想只看一眼，結果專注其中後一兩個小時悄然流逝。", icon: "🕳️", bg: "from-teal-50 to-emerald-50 dark:from-teal-950/30 dark:to-emerald-950/30", tag: "時間黑洞" },
+                    { severity: 3, text: "明知明天有重要考試或早課，依然無法克制熬夜滑手機。", icon: "🌙", bg: "from-indigo-50 to-sky-50 dark:from-indigo-950/30 dark:to-sky-950/30", tag: "熬夜延遲" },
+                    { severity: 4, text: "設定過螢幕時間限制，但最後仍忍不住解除限制繼續滑。", icon: "🔓", bg: "from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30", tag: "破除限制" },
+                    { severity: 5, text: "感覺失去主動放下手機能力，眼睛酸痛仍難以停止。", icon: "🛑", bg: "from-rose-50 to-red-50 dark:from-rose-950/30 dark:to-red-950/30", tag: "控制失靈" }
+                ]
+            },
+            {
+                id: 'dailyLife',
+                title: '三、 日常生活 (Daily Life)',
+                desc: '虛擬世界的活動，是否正在逐漸擠壓並擾亂您的現實作息？',
+                items: [
+                    { severity: 1, text: "因睡前躺在床上看手機，經常比預計時間晚睡半小時以上。", icon: "🛏️", bg: "from-sky-50 to-indigo-50 dark:from-sky-950/30 dark:to-indigo-950/30", tag: "延後入睡" },
+                    { severity: 2, text: "經常一邊吃飯一邊看影音，導致用餐時間過長作息混亂。", icon: "🍱", bg: "from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30", tag: "邊吃邊滑" },
+                    { severity: 3, text: "因過度使用手機，整理環境效率變差，生活空間雜亂。", icon: "🧹", bg: "from-yellow-50 to-amber-50 dark:from-yellow-950/30 dark:to-amber-950/30", tag: "家務拖延" },
+                    { severity: 4, text: "睡眠品質受嚴重影響，白天精神不振、難集中注意力。", icon: "💤", bg: "from-orange-50 to-amber-50 dark:from-orange-950/30 dark:to-amber-950/30", tag: "日間昏沉" },
+                    { severity: 5, text: "沉迷手機經常遲到或未交報告，基本作息與學業面臨停擺。", icon: "⚠️", bg: "from-rose-50 to-pink-50 dark:from-rose-950/30 dark:to-pink-950/30", tag: "生活停擺" }
+                ]
+            },
+            {
+                id: 'dependency',
+                title: '四、 依賴性 (Dependency)',
+                desc: '手機對您而言，是一個單純的工具，還是不可或缺的心智延伸物？',
+                items: [
+                    { severity: 1, text: "只要進入空閒空檔（排隊、等車），便會下意識拿起手機。", icon: "🚶", bg: "from-sky-50 to-teal-50 dark:from-sky-950/30 dark:to-teal-950/30", tag: "填補空檔" },
+                    { severity: 2, text: "以前看半小時就滿足，現在需要花更長時間才能獲得娛樂感。", icon: "📈", bg: "from-emerald-50 to-sky-50 dark:from-emerald-950/30 dark:to-sky-950/30", tag: "耐受度遞增" },
+                    { severity: 3, text: "手機不在視線內或電量低於 20%，心裡便感強烈不安全感。", icon: "🪫", bg: "from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30", tag: "低電量焦慮" },
+                    { severity: 4, text: "與人交談或走路時必須握著手機，彷彿成為身體的一部分。", icon: "🤝", bg: "from-orange-50 to-rose-50 dark:from-orange-950/30 dark:to-rose-950/30", tag: "握持強迫" },
+                    { severity: 5, text: "感覺一分一秒都離不開手機，若未隨身攜帶便無法正常生活。", icon: "🪢", bg: "from-rose-50 to-purple-50 dark:from-rose-950/30 dark:to-purple-950/30", tag: "完全束縛" }
+                ]
+            },
+            {
+                id: 'socialImpact',
+                title: '五、 社會影響 (Social Impact)',
+                desc: '螢幕兩端的社交活動，是否正逐漸削弱您在現實中與親友的連結？',
+                items: [
+                    { severity: 1, text: "為留更多時間用手機，推掉了一些現實中非必要的聚會。", icon: "🏠", bg: "from-sky-50 to-blue-50 dark:from-sky-950/30 dark:to-blue-950/30", tag: "宅家避世" },
+                    { severity: 2, text: "與親友聚餐時忍不住查看手機，被對方抱怨不夠專注。", icon: "🍽️", bg: "from-emerald-50 to-lime-50 dark:from-emerald-950/30 dark:to-lime-950/30", tag: "低頭冷落" },
+                    { severity: 3, text: "親密對象或家人認真抱怨，認為您花太多時間在手機上。", icon: "🗣️", bg: "from-amber-50 to-yellow-50 dark:from-amber-950/30 dark:to-yellow-950/30", tag: "親友抗議" },
+                    { severity: 4, text: "曾因過度沉迷手機，與重要的人發生嚴重爭執或信任危機。", icon: "💔", bg: "from-orange-50 to-rose-50 dark:from-orange-950/30 dark:to-rose-950/30", tag: "關係衝突" },
+                    { severity: 5, text: "覺得網路世界比現實有溫度，逐漸減少與現實親友往來。", icon: "🌐", bg: "from-rose-50 to-indigo-50 dark:from-rose-950/30 dark:to-indigo-950/30", tag: "虛擬退縮" }
+                ]
+            }
+        ];
+
+        // 狀態變數
+        let currentStep = 0; // 0: Landing, 1~5: Quiz, 6: Results
+        let currentDimension = 0;
+        let quizState = {};
+        let total100Score = 0;
+        let dimensionScores = {};
+
+        // 拖曳與觸控狀態
+        let dragSourceIndex = null;
+        let touchStartY = 0;
+        let touchStartIndex = 0;
+
+        // AI 對話會話與知識庫系統
+        let aiSession = {
+            history: [],
+            usedTips: new Set(),
+            lastCategory: 'general'
+        };
+
+        const aiTipsDatabase = {
+            sleep: [
+                { id: 'sleep_1', title: '🔌 充電線流放計畫', desc: '將手機充電器移到房門口或客廳。躺在床上時絕對拿不到手機，用物理距離直接阻斷睡前無意識滑動。' },
+                { id: 'sleep_2', title: '⏰ 實體鬧鐘替代法', desc: '買一個獨立的傳統鬧鐘，讓手機完全遠離床頭，避免起床第一秒眼球就被跳出的通知與多巴胺綁架。' },
+                { id: 'sleep_3', title: '🎧 睡眠轉場儀式', desc: '睡前半小時將螢幕關閉，改聽定時關閉的輕音樂、冥想 Podcast 或閱讀實體書，幫助大腦順利切換至副交感神經。' },
+                { id: 'sleep_4', title: '🌙 定時灰階黑白模式', desc: '在手機設定中設置每天 21:00 自動切換為「黑白螢幕」。少了絢麗視覺，大腦對螢幕的渴望會立刻下降 50% 以上。' }
+            ],
+            focus: [
+                { id: 'focus_1', title: '📦 物理阻隔（一臂距離之外）', desc: '讀書或工作時將手機放在需要站起來才拿得到的背包深處或隔壁房間。只要增加 2 秒動作阻力，大腦就會自動放棄衝動。' },
+                { id: 'focus_2', title: '⏳ 番茄鐘 + 飛航模式', desc: '實施 25 分鐘極致專注 + 5 分鐘休息。專注期間手機開啟飛航模式並反扣，休息時間才可處理必要事項。' },
+                { id: 'focus_3', title: '🔒 專注應用程式鎖 (AppBlock/Forest)', desc: '利用種樹軟體或應用鎖，在工作時間強制鎖定社交與影音 App，打破指尖的無意識習慣。' },
+                { id: 'focus_4', title: '📝 啟動微儀式清單', desc: '開始專注前寫下「今天最重要的一件事」，隨後將手機放進抽屜，給大腦一個明確的「進入戰鬥狀態」信號。' }
+            ],
+            notification: [
+                { id: 'notification_1', title: '🔕 關閉小紅點與非緊急推播', desc: '將 Line/通訊軟體以外所有 App 的「小紅點通知」與「彈窗推播」完全關閉。主動掌控查看時間，而非隨響隨看。' },
+                { id: 'notification_2', title: '🏁 螢幕預設改為黑白灰階', desc: '將螢幕色彩改為灰階模式。彩色的 App 圖示是精心設計的多巴胺陷阱，變黑白後視覺誘惑力大減。' },
+                { id: 'notification_3', title: '🌐 網頁版替代法（增加操作摩擦）', desc: '卸載手機上的社群 App，改用手機瀏覽器登入。多了登入與較慢的載入流程，能大輻降低無意識打開的頻率。' },
+                { id: 'notification_4', title: '📬 批次訊息處理時段', desc: '設定每日固定兩個時段（如 12:30 與 18:30）統一回覆訊息，不再讓隨時跳出的通知打亂當下的思考與生活節奏。' }
+            ],
+            social: [
+                { id: 'social_1', title: '🍽️ 餐桌手機疊疊樂', desc: '與親友聚餐時，將所有人的手機集中反扣在桌子中央。誰先伸手拿手機就負責買單或懲罰，增加趣味約束。' },
+                { id: 'social_2', title: '📢 數位邊界宣告', desc: '主動告訴身邊重要的人：「我最近正在嘗試減少手機使用，如果回覆比較慢請見諒哦！」降低社交回覆壓力。' },
+                { id: 'social_3', title: '👁️ 眼神接觸與收納儀式', desc: '與人交談時，將手機完全放進口袋或包包，不擺在桌面上。不只提升談話品質，也能讓自己更沉浸於現實陪伴。' }
+            ],
+            mindset: [
+                { id: 'mindset_1', title: '🛑 3 秒 Pause 提問法', desc: '伸手拿手機時停頓 3 秒自問：「我現在拿手機是有特定目的，還是因為無聊焦慮？」光是這 3 秒覺察就能攔截半數衝動。' },
+                { id: 'mindset_2', title: '🧘 FOMO 錯失恐懼解毒', desc: '告訴自己「錯過幾條動態不會影響人生，真正緊急的大事對方一定會打電話」。放下對即時訊息的過度執著。' },
+                { id: 'mindset_3', title: '💚 允許彈性與接納自責', desc: '改變習慣是一條漸進的曲線。偶爾滑過頭時不要自責，記下觸發情境並調整物理阻力即可！' }
+            ]
+        };
+
+        document.addEventListener("DOMContentLoaded", () => {
+            quizData.forEach(dim => {
+                quizState[dim.id] = { items: [...dim.items] };
+            });
+
+            const splashBar = document.getElementById("splash-progress");
+            if (splashBar) {
+                setTimeout(() => splashBar.style.width = "100%", 100);
+            }
+            setTimeout(dismissSplash, 1800);
+
+            loadFeedbacks();
+
+            document.getElementById("chat-input")?.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") sendChatMessage('chat-input');
+            });
+            document.getElementById("chat-input-expanded")?.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") sendChatMessage('chat-input-expanded');
+            });
+        });
+
+        function dismissSplash() {
+            const splash = document.getElementById("splash-screen");
+            if (splash) {
+                splash.classList.add("opacity-0");
+                splash.style.pointerEvents = "none";
+                setTimeout(() => splash.remove(), 500);
+            }
+        }
+
+        // ==========================================
+        // 視圖切換引擎
+        // ==========================================
+        function updateView() {
+            const landingView = document.getElementById("view-landing");
+            const quizView = document.getElementById("view-quiz");
+            const resultsView = document.getElementById("view-results");
+            const progressContainer = document.getElementById("progress-container");
+            const progressBar = document.getElementById("progress-bar");
+            const headerTitle = document.getElementById("header-title");
+            const headerSubtitle = document.getElementById("header-subtitle");
+            const prevBtn = document.getElementById("prev-btn");
+            const nextBtn = document.getElementById("next-btn");
+
+            [landingView, quizView, resultsView].forEach(v => {
+                v.classList.add("hidden");
+                v.classList.remove("view-fade-in");
+            });
+
+            if (currentStep === 0) {
+                landingView.classList.remove("hidden");
+                landingView.classList.add("view-fade-in");
+                progressContainer.classList.add("hidden");
+                headerTitle.textContent = "被「點亮」的焦慮：滑動世代的情緒防線";
+                headerSubtitle.textContent = "正常使用與依賴使用行為的心理拔河";
+                prevBtn.classList.add("hidden");
+                nextBtn.className = "tactile-btn w-full py-2.5 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs sm:text-sm font-black flex items-center justify-center gap-1.5 shadow-xs";
+                nextBtn.innerHTML = "<span>開始心理拔河 ➔</span>";
+            } else if (currentStep >= 1 && currentStep <= 5) {
+                quizView.classList.remove("hidden");
+                quizView.classList.add("view-fade-in");
+                progressContainer.classList.remove("hidden");
+                const dimIndex = currentStep - 1;
+                const dimData = quizData[dimIndex];
+                
+                headerTitle.textContent = dimData.title;
+                headerSubtitle.textContent = dimData.desc;
+                progressBar.style.width = `${(currentStep / 5) * 100}%`;
+
+                prevBtn.classList.remove("hidden");
+                prevBtn.className = "tactile-btn w-1/3 py-2 rounded-xl border border-slate-900/10 dark:border-white/10 bg-white/70 dark:bg-white/5 text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center justify-center gap-1";
+                nextBtn.className = "tactile-btn w-2/3 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-black flex items-center justify-center gap-1 shadow-xs";
+                
+                if (currentStep === 5) {
+                    nextBtn.innerHTML = "<span>結算總成績 🎉</span>";
+                } else {
+                    nextBtn.innerHTML = "<span>確認排序，下一關 ➔</span>";
+                }
+
+                renderCards(dimIndex);
+            } else if (currentStep === 6) {
+                resultsView.classList.remove("hidden");
+                resultsView.classList.add("view-fade-in");
+                progressContainer.classList.add("hidden");
+                headerTitle.textContent = "心理拉鋸戰況診斷";
+                headerSubtitle.textContent = "感謝您的填寫！擁抱真實自我，在黑夜裡調整優雅的呼吸。";
+                prevBtn.classList.add("hidden");
+                nextBtn.classList.add("hidden");
+
+                calculateFinalScores();
+            }
+        }
+
+        function nextStep(e) {
+            if (e) e.preventDefault();
+            if (currentStep < 5) {
+                currentStep++;
+                updateView();
+            } else if (currentStep === 5) {
+                currentStep = 6;
+                updateView();
+            }
+        }
+
+        function prevStep(e) {
+            if (e) e.preventDefault();
+            if (currentStep > 0) {
+                currentStep--;
+                updateView();
+            }
+        }
+
+        // ==========================================
+        // 渲染卡牌
+        // ==========================================
+        function renderCards(dimIndex) {
+            currentDimension = dimIndex;
+            const data = quizData[dimIndex];
+            const state = quizState[data.id];
+            const container = document.getElementById('cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            state.items.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = "quiz-card-item group relative w-full rounded-card border border-white/80 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 p-2.5 sm:p-3 flex flex-row items-center justify-between gap-2.5 shadow-2xs touch-none flex-1 min-h-[64px]";
+                card.setAttribute('draggable', 'true');
+                card.setAttribute('data-index', index);
+
+                const sevInfo = severityBadges[item.severity] || severityBadges[1];
+
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragend', handleDragEnd);
+
+                card.addEventListener('touchstart', handleTouchStart, { passive: false });
+                card.addEventListener('touchmove', handleTouchMove, { passive: false });
+                card.addEventListener('touchend', handleTouchEnd);
+
+                card.innerHTML = `
+                    <div class="flex flex-col space-y-1 shrink-0 select-none order-1">
+                        <button onclick="cardShift(${index}, 'up', event)" class="w-6 h-6 rounded-lg bg-slate-100/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-sky-500 hover:text-white flex items-center justify-center transition-all text-[10px] font-bold" ${index === 0 ? 'disabled style="opacity: 0.15;"' : ''}>
+                            ▲
+                        </button>
+                        <button onclick="cardShift(${index}, 'down', event)" class="w-6 h-6 rounded-lg bg-slate-100/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-sky-500 hover:text-white flex items-center justify-center transition-all text-[10px] font-bold" ${index === 4 ? 'disabled style="opacity: 0.15;"' : ''}>
+                            ▼
+                        </button>
+                    </div>
+
+                    <div class="flex-grow flex flex-row items-center gap-2.5 overflow-hidden order-2">
+                        <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-br ${item.bg} flex items-center justify-center text-xl sm:text-2xl shrink-0 border border-slate-900/5 dark:border-white/10 shadow-inner">
+                            ${item.icon}
+                        </div>
+                        <div class="flex-grow text-left overflow-hidden">
+                            <p class="text-[10.5px] sm:text-[11.5px] leading-snug font-bold text-slate-700 dark:text-slate-100">
+                                ${item.text}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col items-end justify-center shrink-0 select-none order-3">
+                        <span class="text-[8.5px] sm:text-[9px] font-black px-2 py-0.5 rounded-full border shadow-2xs ${sevInfo.badgeBg} flex items-center gap-0.5 whitespace-nowrap">
+                            <span>${sevInfo.title}</span>
+                            <span class="font-extrabold opacity-75">${sevInfo.code}</span>
+                        </span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // 拖曳互動處理
+        function handleDragStart(e) {
+            dragSourceIndex = parseInt(this.getAttribute('data-index'));
+            this.classList.add('dragging-card');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        function handleDragOver(e) {
+            if (e.preventDefault) e.preventDefault();
+            return false;
+        }
+        function handleDrop(e) {
+            e.stopPropagation();
+            const targetIndex = parseInt(this.getAttribute('data-index'));
+            if (dragSourceIndex !== null && dragSourceIndex !== targetIndex) {
+                const state = quizState[quizData[currentStep - 1].id];
+                const temp = state.items[dragSourceIndex];
+                state.items[dragSourceIndex] = state.items[targetIndex];
+                state.items[targetIndex] = temp;
+                renderCards(currentStep - 1);
+            }
+            return false;
+        }
+        function handleDragEnd() {
+            this.classList.remove('dragging-card');
+        }
+
+        function handleTouchStart(e) {
+            touchStartY = e.touches[0].clientY;
+            touchStartIndex = parseInt(this.getAttribute('data-index'));
+            this.classList.add('dragging-card');
+        }
+        function handleTouchMove(e) { e.preventDefault(); }
+        function handleTouchEnd(e) {
+            this.classList.remove('dragging-card');
+            const touchEndY = e.changedTouches[0].clientY;
+            const diffY = touchEndY - touchStartY;
+            if (Math.abs(diffY) > 20) {
+                const state = quizState[quizData[currentStep - 1].id];
+                const targetIndex = diffY < 0 ? touchStartIndex - 1 : touchStartIndex + 1;
+                if (targetIndex >= 0 && targetIndex < 5) {
+                    const temp = state.items[touchStartIndex];
+                    state.items[touchStartIndex] = state.items[targetIndex];
+                    state.items[targetIndex] = temp;
+                    renderCards(currentStep - 1);
+                }
+            }
+        }
+
+        function cardShift(idx, direction, e) {
+            if (e) e.stopPropagation();
+            const state = quizState[quizData[currentStep - 1].id];
+            const targetIndex = direction === 'up' ? idx - 1 : idx + 1;
+            if (targetIndex >= 0 && targetIndex < 5) {
+                const temp = state.items[idx];
+                state.items[idx] = state.items[targetIndex];
+                state.items[targetIndex] = temp;
+                renderCards(currentStep - 1);
+            }
+        }
+
+        // ==========================================
+        // 評分計算 (100分制)
+        // ==========================================
+        function calculateFinalScores() {
+            total100Score = 0;
+            dimensionScores = {};
+
+            quizData.forEach(dim => {
+                const state = quizState[dim.id];
+                let dimRaw = 0;
+                
+                state.items.forEach((item, posIndex) => {
+                    const weight = 5 - posIndex;
+                    dimRaw += weight * item.severity;
+                });
+
+                const dimScore = Math.max(0, Math.min(20, dimRaw - 35));
+                dimensionScores[dim.id] = dimScore;
+                total100Score += dimScore;
+            });
+
+            renderResultsDashboard();
+            sendDataToGoogleSheets();
+        }
+
+        function renderResultsDashboard() {
+            const scoreNumEl = document.getElementById('total-score-num');
+            const verdictEl = document.getElementById('tug-verdict');
+            const statEl = document.getElementById('tug-percentage-stat');
+            const ropeNode = document.getElementById('rope-node');
+
+            if (scoreNumEl) scoreNumEl.textContent = total100Score;
+
+            const nodeLeft = Math.max(10, Math.min(90, total100Score));
+            if (ropeNode) ropeNode.style.left = `${nodeLeft}%`;
+
+            if (total100Score <= 30) {
+                verdictEl.innerHTML = `🛡️ 診斷：<span class="text-emerald-600 dark:text-emerald-400 font-black">【綠燈 — 現實自主型】</span>`;
+                statEl.innerHTML = `您的數位依賴分數僅為 <span class="font-black text-emerald-600 dark:text-emerald-400">${total100Score} 分</span>！螢幕主導權完全在您手中，能健康悠遊於實體與數位世界。`;
+            } else if (total100Score <= 60) {
+                verdictEl.innerHTML = `⚖️ 診斷：<span class="text-amber-600 dark:text-amber-300 font-black">【黃燈 — 輕中度拉扯型】</span>`;
+                statEl.innerHTML = `您的數位依賴分數為 <span class="font-black text-amber-600 dark:text-amber-300">${total100Score} 分</span>。在身心疲憊或空檔時易掉入多巴胺漩渦，建議增設微小物理阻力。`;
+            } else if (total100Score <= 85) {
+                verdictEl.innerHTML = `⚠️ 診斷：<span class="text-orange-600 dark:text-orange-400 font-black">【橙燈 — 重度依賴型】</span>`;
+                statEl.innerHTML = `您的數位依賴分數高達 <span class="font-black text-orange-600 dark:text-orange-400">${total100Score} 分</span>！數位行為已對日常作息與情緒產生顯著牽制，防線處於警戒狀態。`;
+            } else {
+                verdictEl.innerHTML = `🆘 診斷：<span class="text-rose-600 dark:text-rose-400 font-black">【紅燈 — 高危過載型】</span>`;
+                statEl.innerHTML = `您的數位依賴分數高達 <span class="font-black text-rose-600 dark:text-rose-400">${total100Score} 分</span>！處於被「點亮」極度焦慮狀態，強烈建議建立實體環境阻斷。`;
+            }
+
+            drawRadarChart();
+            generateAiAnalysis();
+            initAiChat();
+        }
+
+        // 雷達圖繪製
+        function drawRadarChart() {
+            const svg = document.getElementById('radar-chart');
+            if (!svg) return;
+            svg.innerHTML = '';
+
+            const center = 120;
+            const radius = 80;
+            const dims = ['emotion', 'selfControl', 'dailyLife', 'dependency', 'socialImpact'];
+            const labels = ['情緒', '自控', '日常', '依賴', '社會'];
+
+            [0.33, 0.66, 1].forEach(level => {
+                let points = [];
+                for (let i = 0; i < 5; i++) {
+                    const angle = (Math.PI * 2 / 5) * i - Math.PI / 2;
+                    const x = center + radius * level * Math.cos(angle);
+                    const y = center + radius * level * Math.sin(angle);
+                    points.push(`${x},${y}`);
+                }
+                const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                polygon.setAttribute('points', points.join(' '));
+                polygon.setAttribute('fill', 'none');
+                polygon.setAttribute('stroke', 'rgba(120, 149, 178, 0.25)');
+                polygon.setAttribute('stroke-width', '1');
+                svg.appendChild(polygon);
+            });
+
+            let dataPoints = [];
+            dims.forEach((dimId, i) => {
+                const score = dimensionScores[dimId] || 0;
+                const ratio = score / 20;
+                const angle = (Math.PI * 2 / 5) * i - Math.PI / 2;
+                const x = center + radius * ratio * Math.cos(angle);
+                const y = center + radius * ratio * Math.sin(angle);
+                dataPoints.push(`${x},${y}`);
+
+                const lx = center + (radius + 18) * Math.cos(angle);
+                const ly = center + (radius + 18) * Math.sin(angle);
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', lx);
+                text.setAttribute('y', ly);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('dominant-baseline', 'central');
+                text.setAttribute('font-size', '10');
+                text.setAttribute('font-weight', 'bold');
+                text.setAttribute('fill', 'currentColor');
+                text.textContent = `${labels[i]} (${score}分)`;
+                svg.appendChild(text);
+            });
+
+            const dataPolygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            dataPolygon.setAttribute('points', dataPoints.join(' '));
+            dataPolygon.setAttribute('fill', 'rgba(56, 189, 248, 0.25)');
+            dataPolygon.setAttribute('stroke', '#38bdf8');
+            dataPolygon.setAttribute('stroke-width', '2.5');
+            svg.appendChild(dataPolygon);
+        }
+
+        function showDimensionFeedback(dimId) {
+            const textEl = document.getElementById('dimension-feedback-text');
+            if (!textEl) return;
+            
+            const score = dimensionScores[dimId] || 0;
+            const nameMap = {
+                emotion: '情緒層面',
+                selfControl: '自我控制',
+                dailyLife: '日常生活',
+                dependency: '依賴性',
+                socialImpact: '社會影響'
+            };
+
+            let advice = "";
+            if (score <= 6) {
+                advice = `在這個維度您僅拿到 <b>${score}/20 分</b>，表現非常自主優異！您可以繼續維持目前的實體生活節奏。`;
+            } else if (score <= 13) {
+                advice = `在這個維度您拿到 <b>${score}/20 分</b>，處於輕中度拉扯狀態。建議在特定高發情境設置「一臂距離」阻力。`;
+            } else {
+                advice = `在這個維度您拿到 <b>${score}/20 分</b>，為主要干擾漏洞！建議透過物理封鎖通知與黑白螢幕進行深度降溫。`;
+            }
+
+            textEl.innerHTML = `<strong>【${nameMap[dimId]} 診斷】</strong>：${advice}`;
+            textEl.classList.remove('hidden');
+        }
+
+        function generateAiAnalysis() {
+            const container = document.getElementById('ai-response-container');
+            if (!container) return;
+
+            let maxDim = 'emotion';
+            let maxVal = -1;
+            Object.entries(dimensionScores).forEach(([k, v]) => {
+                if (v > maxVal) { maxVal = v; maxDim = k; }
+            });
+
+            const dimNames = {
+                emotion: '情緒層面 (受通知與社群焦慮牽制)',
+                selfControl: '自我控制 (易陷時間黑洞)',
+                dailyLife: '日常生活 (作息與效率受干擾)',
+                dependency: '依賴性 (下意識尋求多巴胺刺激)',
+                socialImpact: '社會影響 (現實社交被螢幕淡化)'
+            };
+
+            container.innerHTML = `
+                針對您 <strong>${total100Score} 分</strong> 的測驗結果，行為分析發現您目前最顯著的心理拉鋸漏洞在於 <strong>${dimNames[maxDim]}</strong>。<br><br>
+                💡 <strong>AI 建議防護策略：</strong>不用試圖一次戒斷手機，而是採用「環境微阻力」策略。例如將經常干擾您的 App 設定手動登出，或在睡前半小時將手機移出臥室，用最小的心理負擔奪回生活主導權！
+            `;
+        }
+
+        // ==========================================
+        // AI Gemini 智慧對話導航引擎
+        // ==========================================
+        function initAiChat() {
+            aiSession.history = [{
+                sender: 'bot',
+                text: `您好！感謝您的填寫！我是您的 AI 手機退癮生活導航。看到您本次測驗得分為 <strong>${total100Score} 分</strong>，想聊聊今晚如何透過「物理環境調整」輕鬆降低手機干擾嗎？`
+            }];
+            aiSession.usedTips = new Set();
+            aiSession.lastCategory = 'general';
+            renderChatHistory();
+        }
+
+        function renderChatHistory() {
+            const box1 = document.getElementById('chat-history');
+            const box2 = document.getElementById('chat-history-expanded');
+            
+            const html = aiSession.history.map(m => {
+                if (m.sender === 'user') {
+                    return `<div class="text-right my-1"><span class="inline-block bg-sky-500 text-white p-2.5 rounded-2xl max-w-[85%] text-[10px] shadow-2xs leading-relaxed text-left">${escapeHtml(m.text)}</span></div>`;
+                } else {
+                    return `<div class="text-left my-1"><span class="inline-block bg-sky-50 dark:bg-sky-950/80 text-sky-950 dark:text-sky-200 p-2.5 rounded-2xl max-w-[85%] text-[10px] border border-sky-100 dark:border-sky-800/30 leading-relaxed">${m.text}</span></div>`;
+                }
+            }).join('');
+
+            if (box1) { box1.innerHTML = html; box1.scrollTop = box1.scrollHeight; }
+            if (box2) { box2.innerHTML = html; box2.scrollTop = box2.scrollHeight; }
+        }
+
+        function sendChatMessage(inputId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+
+            document.getElementById('chat-input').value = '';
+            document.getElementById('chat-input-expanded').value = '';
+
+            aiSession.history.push({ sender: 'user', text: text });
+            renderChatHistory();
+
+            setTimeout(() => {
+                const botResponse = generateDynamicGeminiResponse(text);
+                aiSession.history.push({ sender: 'bot', text: botResponse });
+                renderChatHistory();
+            }, 350);
+        }
+
+        // Gemini AI 動態回應生成演算法 (支援多輪上下文與無重複回應)
+        function generateDynamicGeminiResponse(userText) {
+            const isFollowUp = /還有|其他|更多|再給|別的|還有嗎|補充|更多建議|還有什麼|另外/.test(userText);
+            const isTooHard = /太難|做不到|失敗|沒用|堅持不住|克制不住|放棄|意志力|很難/.test(userText);
+            const isThanks = /謝謝|感謝|有用|讚|好棒|有道理|了解|明白/.test(userText);
+
+            // 分類判定
+            let detectedCategory = null;
+            if (/睡|夜|床|晚安|失眠|熬夜/.test(userText)) detectedCategory = 'sleep';
+            else if (/讀書|專注|工作|分心|學習|寫作|上課|辦公/.test(userText)) detectedCategory = 'focus';
+            else if (/通知|小紅點|IG|FB|Line|社群|訊息|已讀|推播|抖音|短影音|Threads/.test(userText)) detectedCategory = 'notification';
+            else if (/聚餐|朋友|家人|聊天|吃飯|約會|人際|低頭/.test(userText)) detectedCategory = 'social';
+            else if (/焦慮|心情|煩躁|錯失|FOMO|習慣/.test(userText)) detectedCategory = 'mindset';
+
+            if (detectedCategory) {
+                aiSession.lastCategory = detectedCategory;
+            } else {
+                detectedCategory = aiSession.lastCategory || 'notification';
+            }
+
+            // 1. 處理感謝回應
+            if (isThanks) {
+                return `不客氣！很高興能為您提供靈感 🌟 習慣的重塑是一場對自己的溫柔革命，不用給自己太大的壓力。您可以先嘗試最輕鬆的一招，有任何新問題隨時隨地都可以再來跟我聊聊哦！`;
+            }
+
+            // 2. 處理抱怨「太難/做不到」
+            if (isTooHard) {
+                return `完全理解您的感受！要立刻戒掉多年的手機習慣確實非常違背人性。強靠意志力往往最容易遭遇挫折。<br><br>💡 <b>Gemini 建議：試試微小的「1 秒阻力」</b><br>不用強制自己完全不看手機，今晚我們只做最簡單的一小步：<b>把最常滑的 App 圖示移到手機第二頁或資料夾深處</b>。光是多一次手指滑動的動作，就能給大腦多 1 秒的冷卻時間！您覺得這個微小步驟今晚能試試看嗎？`;
+            }
+
+            // 3. 抽取未使用過的 Tip
+            let categoryTips = aiTipsDatabase[detectedCategory] || [];
+            let unusedTip = categoryTips.find(t => !aiSession.usedTips.has(t.id));
+
+            // 若該分類已全部用過，則嘗試跨分類尋找未使用的 Tip
+            if (!unusedTip) {
+                const allCategories = ['notification', 'focus', 'sleep', 'mindset', 'social'];
+                for (let cat of allCategories) {
+                    const found = aiTipsDatabase[cat].find(t => !aiSession.usedTips.has(t.id));
+                    if (found) {
+                        unusedTip = found;
+                        aiSession.lastCategory = cat;
+                        break;
+                    }
+                }
+            }
+
+            // 若完全用盡，重置標記
+            if (!unusedTip) {
+                aiSession.usedTips.clear();
+                unusedTip = categoryTips[0];
+            }
+
+            aiSession.usedTips.add(unusedTip.id);
+
+            // 4. 根據是否為「還有其他建議」構建 Gemini 式的對話回應
+            if (isFollowUp) {
+                return `沒問題！除了剛剛討論的策略，針對這個情境這裡還有另一個非常實用的<b>進階退癮行動方案</b>：<br><br>
+                ✨ <b>${unusedTip.title}</b><br>
+                ${unusedTip.desc}<br><br>
+                🎯 <b>為什麼這個方法有效？</b><br>
+                習慣大腦極度依賴「視覺提示」，透過這項微調能直接打斷預設的自動駕駛神經迴路。<br><br>
+                您可以評估看看這一招是否更適合您的生活作息？需要針對特定時間點（如起床或讀書）再做調整嗎？`;
+            } else {
+                // 首問或新主題提問
+                return `這是一個非常關鍵的問題！習慣的調整最忌諱依靠意志力，而是要打造「環境微阻力」。<br><br>
+                推薦您試試這個被證實非常有效的行動策略：<br><br>
+                ✨ <b>${unusedTip.title}</b><br>
+                ${unusedTip.desc}<br><br>
+                您可以挑選這個方法試試看。如果您想知道<b><span>還有其他建議方法</span></b>或想針對睡前/專注等特定情境調整，隨時告訴我哦！`;
+            }
+        }
+
+        // ==========================================
+        // 雲端同步與留言板 (對應兩個獨立試算表)
+        // ==========================================
+        function sendDataToGoogleSheets() {
+            const syncBar = document.getElementById('sheets-sync-bar');
+            
+            // 取得診斷結果文字
+            const verdictEl = document.getElementById('tug-verdict');
+            const verdictText = verdictEl ? verdictEl.innerText.replace(/診斷：/, '').trim() : "";
+
+            // 取得各個構面卡牌的排序文字
+            function getRankString(dimId) {
+                if (!quizState[dimId] || !quizState[dimId].items) return "";
+                return quizState[dimId].items.map((item, idx) => `${idx + 1}.${item.text}`).join(' / ');
+            }
+
+            const payload = {
+                timestamp: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }),
+                totalScore: total100Score + " 分",
+                verdict: verdictText,
+                emotionScore: (dimensionScores.emotion || 0) + " 分",
+                selfControlScore: (dimensionScores.selfControl || 0) + " 分",
+                dailyLifeScore: (dimensionScores.dailyLife || 0) + " 分",
+                dependencyScore: (dimensionScores.dependency || 0) + " 分",
+                socialImpactScore: (dimensionScores.socialImpact || 0) + " 分",
+                emotionRank: getRankString('emotion'),
+                selfControlRank: getRankString('selfControl'),
+                dailyLifeRank: getRankString('dailyLife'),
+                dependencyRank: getRankString('dependency'),
+                socialImpactRank: getRankString('socialImpact')
+            };
+
+            // 發送至網址 A (檢測平台回應內容)
+            fetch(GOOGLE_RESPONSE_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                if (syncBar) syncBar.innerHTML = `<span class="text-emerald-600 dark:text-emerald-400 font-bold">✓ 已成功同步測驗戰況資料至雲端！</span>`;
+            }).catch(() => {
+                if (syncBar) syncBar.innerHTML = `<span>已完成計算 (離線模式)</span>`;
+            });
+        }
+
+        function sendFeedback(e) {
+            if (e) e.preventDefault();
+            const nameEl = document.getElementById('feedback-username');
+            const textEl = document.getElementById('feedback-input');
+            const statusEl = document.getElementById('feedback-status');
+            
+            const name = nameEl.value.trim() || '匿名探索者';
+            const content = textEl.value.trim();
+
+            if (!content) {
+                alert('請輸入您的留言內容！');
+                return;
+            }
+
+            const colors = ['sticky-blue', 'sticky-green', 'sticky-yellow', 'sticky-orange', 'sticky-red'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+            const newNote = { name, content, color: randomColor, date: '剛剛' };
+            saveLocalFeedback(newNote);
+
+            // 發送至網址 B (留言分享板)
+            const feedbackPayload = {
+                timestamp: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }),
+                name: name,
+                content: content
+            };
+
+            fetch(GOOGLE_FEEDBACK_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(feedbackPayload)
+            }).then(() => {
+                if (statusEl) {
+                    statusEl.textContent = '✓ 感謝您的回饋與填寫，便利貼已同步至雲端與面板！';
+                    statusEl.classList.remove('hidden');
+                    setTimeout(() => statusEl.classList.add('hidden'), 3500);
+                }
+            }).catch(() => {
+                if (statusEl) {
+                    statusEl.textContent = '✓ 留言已儲存至本機';
+                    statusEl.classList.remove('hidden');
+                    setTimeout(() => statusEl.classList.add('hidden'), 3500);
+                }
+            });
+
+            textEl.value = '';
+        }
+
+        function saveLocalFeedback(note) {
+            let stored = JSON.parse(localStorage.getItem('quiz_feedbacks') || '[]');
+            stored.unshift(note);
+            localStorage.setItem('quiz_feedbacks', JSON.stringify(stored));
+            renderFeedbacks();
+        }
+
+        function loadFeedbacks() {
+            renderFeedbacks();
+        }
+
+        function renderFeedbacks() {
+            const grid = document.getElementById('sticky-board-grid');
+            if (!grid) return;
+
+            let stored = JSON.parse(localStorage.getItem('quiz_feedbacks') || '[]');
+            if (stored.length === 0) {
+                stored = [
+                    { name: '退癮小先鋒', content: '感謝這份測驗！柔和淡彩的視覺介面好舒服，看到自己得 68 分真的有被警示到。', color: 'sticky-blue', date: '1小時前' },
+                    { name: '夜貓子探索者', content: '卡牌的嚴重程度標記非常直觀！順暢的拖曳操作讓我認真審視了自己的睡前習慣。', color: 'sticky-green', date: '3小時前' }
+                ];
+            }
+
+            grid.innerHTML = stored.map(n => `
+                <div class="${n.color} p-2.5 rounded-card shadow-2xs text-left flex flex-col justify-between h-24 transition-transform hover:scale-[1.02]">
+                    <p class="text-[9.5px] font-bold leading-snug line-clamp-3">${escapeHtml(n.content)}</p>
+                    <div class="flex justify-between items-center text-[8px] opacity-75 pt-1 border-t border-black/5">
+                        <span>👤 ${escapeHtml(n.name)}</span>
+                        <span>${n.date}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // 通用 Modal 與主題切換控制 logic
+        // ==========================================
+        function toggleModal(id, show) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (show) {
+                el.classList.remove('opacity-0', 'pointer-events-none');
+                el.classList.add('opacity-100', 'pointer-events-auto');
+            } else {
+                el.classList.remove('opacity-100', 'pointer-events-auto');
+                el.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function openScoringModal() { toggleModal('scoring-modal', true); if (window.MathJax) MathJax.typesetPromise(); }
+        function closeScoringModal() { toggleModal('scoring-modal', false); }
+        function openModal() { toggleModal('info-modal', true); }
+        function closeModal() { toggleModal('info-modal', false); }
+        function openFeedbackModal() { toggleModal('feedback-board-modal', true); }
+        function closeFeedbackModal() { toggleModal('feedback-board-modal', false); }
+        function openChatModal() { toggleModal('ai-chat-modal', true); }
+        function closeChatModal() { toggleModal('ai-chat-modal', false); }
+        function openDisclaimerModal() { toggleModal('disclaimer-modal', true); }
+        function closeDisclaimerModal() { toggleModal('disclaimer-modal', false); }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            const themeIcon = document.getElementById('theme-icon');
+            const themeText = document.getElementById('theme-text');
+            if (themeIcon) themeIcon.textContent = isDark ? '☀️' : '🌙';
+            if (themeText) themeText.textContent = isDark ? '淺色模式' : '深色模式';
+        }
+
+        function restartQuiz() {
+            currentStep = 0;
+            quizData.forEach(dim => {
+                quizState[dim.id] = { items: [...dim.items] };
+            });
+            updateView();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;")
+                      .replace(/</g, "&lt;")
+                      .replace(/>/g, "&gt;")
+                      .replace(/"/g, "&quot;")
+                      .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
